@@ -21,9 +21,10 @@ dp.include_router(group_router)
 async def set_bot_webhook():
     webhook_path = f"{settings.BOT_WEBHOOK_URL}/api/v1/"
     current_url = await bot.get_webhook_info()
+
     if current_url.url != webhook_path:
         await bot.delete_webhook()
-        await bot.set_webhook(url=webhook_path)
+        await bot.set_webhook(url=webhook_path, secret_token=settings.SECRET_KEY)
         print("Telegram webhook set successfully")
     else:
         print("Telegram webhook already set")

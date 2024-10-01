@@ -1,11 +1,9 @@
-version: "3.9"
-
 services:
   mariadb:
     image: mariadb
     restart: always
-    ports:
-      - "3306:3306"
+#    ports:
+#      - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${DB_NAME}
@@ -34,19 +32,20 @@ services:
     volumes:
       - ./data/user_data:/app/user_data
     ports:
-      - "80:80"
+      - "8080:80"
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     depends_on:
       - mariadb
     ports:
-      - "8080:80"
+      - "8888:80"
     environment:
       - PMA_HOST=mariadb
       - PMA_PORT=3306
       - PMA_USER=${DB_USER}
       - PMA_PASSWORD=${DB_PASSWORD}
+      - UPLOAD_LIMIT=1G
       - PMA_ARBITRARY=1
 
   celery_worker:

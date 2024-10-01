@@ -1,16 +1,22 @@
 from aiogram.types import Update
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 import traceback
 from src.config.bot import dp, bot
+from src.config.settings import settings
 from src.routes.deps.db_session import DBSession
 
 api_router = APIRouter()
 
 
 @api_router.post("/")
-async def root(update: Update, db_session: DBSession):
+async def root(update: Update, db_session: DBSession, request: Request):
+    if request.headers.get("x-telegram-bot-api-secret-token", "") != settings.SECRET_KEY:
+        return {
+            "success": False,
+            "error": "Invalid token"
+        }
+
     try:
-        # print(update.model_dump_json(exclude_none=True))
         await dp.feed_update(bot, update, db_session=db_session)
     except Exception as e:
         print(update)
