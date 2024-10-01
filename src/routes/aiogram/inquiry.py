@@ -135,6 +135,7 @@ Agar boshqacha savol bermoqchi bo’lsangiz, o’z savolingizni yuborish uchun "
 @inquiry_router.message(InquiryState.faq_question_id)
 async def choose_faq(message: Message, state: FSMContext, db_session: DBSession):
     if not message.text.isdigit():
+        await message.answer("Iltimos, raqam kiriting. Misol uchun: 1. Agar savol yubormoqchi bo‘lsangiz, avval \"📩 Savol yuborish\" tugmasini bosing.")
         return
 
     data = InquiryStateData.model_validate(await state.get_data())
