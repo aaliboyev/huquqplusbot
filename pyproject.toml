@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "huquqplus-bot"
+version = "0.1.0"
+description = "Telegram bot for HuquqPlus"
+authors = ["Abror Aliboyev <contact@aliboyev.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pydantic = "^2.8.2"
+pydantic-settings = "^2.4.0"
+fastapi = {extras = ["all"], version = "^0.112.0"}
+uvicorn = "^0.30.5"
+gunicorn = "^22.0.0"
+aiogram = "^3.10.0"
+backoff = "^2.2.1"
+redis = "^5.0.8"
+sqlmodel = "^0.0.21"
+alembic = "^1.13.2"
+pymysql = "^1.1.1"
+sulguk = "^0.8.0"
+celery = "^5.4.0"
+pytz = "^2024.1"
+openpyxl = "^3.1.5"
+xlsxwriter = "^3.2.0"
+pandas = "^2.2.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

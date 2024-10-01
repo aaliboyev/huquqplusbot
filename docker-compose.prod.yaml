@@ -1,0 +1,60 @@
+version: "3.9"
+
+services:
+  mariadb:
+    image: mariadb
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+
+  redis:
+    image: redis:alpine
+    restart: always
+    volumes:
+      - ./data/redis:/data
+      - ./docker/redis.conf:/tmp/redis.conf
+    command: [ 'redis-server', '/tmp/redis.conf', '--requirepass', '${REDIS_PASS}' ]
+
+  app:
+    command: /start.sh
+    restart: always
+    image: aaliboyev/hqplus_bot:latest
+    env_file:
+      - .env
+    depends_on:
+      - mariadb
+      - redis
+    volumes:
+      - ./data/user_data:/app/user_data
+    ports:
+      - "80:80"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - mariadb
+    ports:
+      - "8080:80"
+    environment:
+      - PMA_HOST=mariadb
+      - PMA_PORT=3306
+      - PMA_USER=${DB_USER}
+      - PMA_PASSWORD=${DB_PASSWORD}
+      - PMA_ARBITRARY=1
+
+  celery_worker:
+    restart: always
+    depends_on:
+      - redis
+      - mariadb
+    image: aaliboyev/hqplus_bot:latest
+    command: ['sh', '/worker-start.sh']
+    env_file:
+      - .env
