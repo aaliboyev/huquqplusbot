@@ -39,7 +39,7 @@ def create_user_info(user: User, with_link=True):
         <b>Tug'ilgan yili:</b> {user.birth_year}<br/>
         <b>Jinsi:</b> {'Erkak' if user.gender == GenderType.male else 'Ayol'}<br/>
         <b>Hudud:</b> {regions[user.region.name]}<br/>
-        <b>Nogironlik turi:</b> {disability_types[user.disability_type.value]}<br/>
+        <b>Nogironlik guruhi:</b> {disability_types[user.disability_type.value]}<br/>
         <b>Nogironlik holati:</b> {disability_states[user.disability_state.value]}<br/>
         <b>Telefon raqami:</b> {user.phone}<br/>
         """

@@ -3,7 +3,7 @@ LABEL authors="aaliboyev"
 
 WORKDIR /app/
 ENV PYTHONPATH=/app
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONUNBUFFERED=1
 ENV TZ=Asia/Tashkent
 RUN mkdir "/run/secrets"
 
